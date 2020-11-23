@@ -1,4 +1,18 @@
 const { ApolloServer, gql } = require("apollo-server");
+const { Sequelize } = require("sequelize");
+const connectionConfig = require("./config/config.json").development;
+
+const sequelize = new Sequelize(connectionConfig);
+
+const connectToDatabase = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log("database connection established");
+  } catch (error) {
+    console.error("failed to connect to the database", error);
+  }
+};
+connectToDatabase();
 
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
